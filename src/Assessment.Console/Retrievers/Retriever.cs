@@ -8,10 +8,19 @@ namespace Assessment.Console.Retrievers
 {
     public class Retriever
     {
-        public List<User> Retrieve(IEnumerable<Csv> users, string origin) 
+        IEnumerable<Csv> Users { get; }
+        string Origin { get; }
+
+        public Retriever(IEnumerable<Csv> users, string origin) 
+        { 
+            Users = users;
+            Origin = origin;
+        }
+
+        public List<User> Retrieve() 
         {
             var completeUsers = new List<User>();
-            foreach (var user in users)
+            foreach (var user in Users)
             {
                 var builder = HttpUtility.ParseQueryString(string.Empty);
 
@@ -20,7 +29,7 @@ namespace Assessment.Console.Retrievers
 
                 var client = new HttpClient
                 {
-                    BaseAddress = new(origin)
+                    BaseAddress = new(Origin)
                 };
 
                 var request = new HttpRequestMessage(HttpMethod.Get, $"users?{builder}");

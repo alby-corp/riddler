@@ -31,15 +31,15 @@ void Work()
 
     #region Reader
 
-    var reader = new Reader();
-    var users = reader.Read(path, separator, extension);
+    var reader = new Reader(path, separator, extension);
+    var users = reader.Read();
 
     #endregion
 
     #region Retriever
 
-    var retriever = new Retriever();
-    var completeUsers = retriever.Retrieve(users, origin);
+    var retriever = new Retriever(users, origin);
+    var completeUsers = retriever.Retrieve();
 
     #endregion
 
@@ -51,8 +51,8 @@ void Work()
         return;
     }
 
-    var writer = new Writer();
-    writer.Write(completeUsers, path, extension);
+    var writer = new Writer(completeUsers, path, extension);
+    writer.Write();
 
     #endregion
 }
