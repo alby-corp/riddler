@@ -1,4 +1,5 @@
-﻿using Assessment.Console.Models;
+﻿using Assessment.Console.Abstract;
+using Assessment.Console.Models;
 using Assessment.Shared;
 using System.Text.Json;
 using System.Web;
@@ -6,21 +7,12 @@ using static System.Console;
 
 namespace Assessment.Console.Retrievers
 {
-    public class Retriever
+    public class Retriever : IRetriever
     {
-        IEnumerable<Csv> Users { get; }
-        string Origin { get; }
-
-        public Retriever(IEnumerable<Csv> users, string origin) 
-        { 
-            Users = users;
-            Origin = origin;
-        }
-
-        public List<User> Retrieve() 
+        public List<User> Retrieve(IEnumerable<Csv> users, string origin, Action<string>? console = default) 
         {
             var completeUsers = new List<User>();
-            foreach (var user in Users)
+            foreach (var user in users)
             {
                 var builder = HttpUtility.ParseQueryString(string.Empty);
 
@@ -29,7 +21,7 @@ namespace Assessment.Console.Retrievers
 
                 var client = new HttpClient
                 {
-                    BaseAddress = new(Origin)
+                    BaseAddress = new(origin)
                 };
 
                 var request = new HttpRequestMessage(HttpMethod.Get, $"users?{builder}");
@@ -37,7 +29,7 @@ namespace Assessment.Console.Retrievers
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    WriteLine("An error occured: {0}", response.ReasonPhrase);
+                    console?.Invoke($"An error occured: {response.ReasonPhrase}");
                     continue;
                 }
 

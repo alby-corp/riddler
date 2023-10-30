@@ -8,7 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Assessment.Shared\Assessment.Shared.csproj"/>
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Assessment.Shared\Assessment.Shared.csproj" />
     </ItemGroup>
 
 </Project>
