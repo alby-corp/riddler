@@ -7,7 +7,7 @@ namespace Assessment.Console.Readers
     {
         public IEnumerable<Csv> Read(string path, string separator, string extension) 
         {
-            var lines = File.ReadAllLines(System.IO.Path.Combine(path, $"input{extension}"));
+            var lines = File.ReadAllLines(Path.Combine(path, $"input{extension}"));
             return lines
                 .Where(line => !string.IsNullOrEmpty(line))
                 .Select(line =>

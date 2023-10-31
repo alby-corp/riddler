@@ -9,7 +9,11 @@ namespace Assessment.Console.Retrievers
 {
     public class Retriever : IRetriever
     {
-        public List<User> Retrieve(IEnumerable<Csv> users, string origin, Action<string>? console = default) 
+        private readonly HttpClient _client;
+
+        public Retriever(HttpClient httpClient) => _client = httpClient;
+
+        public List<User> Retrieve(IEnumerable<Csv> users, Action<string>? console = default) 
         {
             var completeUsers = new List<User>();
             foreach (var user in users)
@@ -19,13 +23,8 @@ namespace Assessment.Console.Retrievers
                 builder.Add("given-name", user.GivenName);
                 builder.Add("family-name", user.FamilyName);
 
-                var client = new HttpClient
-                {
-                    BaseAddress = new(origin)
-                };
-
                 var request = new HttpRequestMessage(HttpMethod.Get, $"users?{builder}");
-                var response = client.Send(request);
+                var response = _client.Send(request);
 
                 if (!response.IsSuccessStatusCode)
                 {

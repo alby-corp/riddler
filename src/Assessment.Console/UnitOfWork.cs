@@ -16,8 +16,20 @@ namespace Assessment.Console
             _writer = writer;
         }
 
-        public void DoWork(string path, string separator, string extension, string origin)
+        public void DoWork(string separator, string extension)
         {
+            string? path;
+
+            #region Validation
+
+            do
+            {
+                WriteLine("Please enter a valid path, for txt template");
+                path = ReadLine();
+            } while (string.IsNullOrEmpty(path) || path.Length < 3);
+
+            #endregion
+
             #region Reader
 
             var users = _reader.Read(path, separator, extension);
@@ -26,7 +38,7 @@ namespace Assessment.Console
 
             #region Retriever
 
-            var completeUsers = _retriever.Retrieve(users, origin, WriteLine);
+            var completeUsers = _retriever.Retrieve(users, WriteLine);
 
             #endregion
 

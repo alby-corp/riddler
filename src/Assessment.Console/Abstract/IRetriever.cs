@@ -5,6 +5,6 @@ namespace Assessment.Console.Abstract
 {
     public interface IRetriever
     {
-        List<User> Retrieve(IEnumerable<Csv> users, string origin, Action<string>? console = default);
+        List<User> Retrieve(IEnumerable<Csv> users, Action<string>? console = default);
     }
 }
