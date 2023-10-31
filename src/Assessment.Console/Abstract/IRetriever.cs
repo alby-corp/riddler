@@ -1,10 +1,9 @@
-﻿using Assessment.Console.Models;
+﻿namespace Assessment.Console.Abstract;
+
+using Assessment.Console.Models;
 using Assessment.Shared;
 
-namespace Assessment.Console.Abstract
+public interface IRetriever
 {
-    public interface IRetriever
-    {
-        List<User> Retrieve(IEnumerable<Csv> users, Action<string>? console = default);
-    }
+    List<User> Retrieve(IEnumerable<Csv> users, Action<string>? console = default);
 }

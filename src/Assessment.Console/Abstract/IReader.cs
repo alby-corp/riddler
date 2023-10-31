@@ -1,9 +1,8 @@
-﻿using Assessment.Console.Models;
+﻿namespace Assessment.Console.Abstract;
 
-namespace Assessment.Console.Abstract
+using Assessment.Console.Models;
+
+public interface IReader
 {
-    public interface IReader
-    {
-        IEnumerable<Csv> Read(string path, string separator, string extension);
-    }
+    IEnumerable<Csv> Read(string path);
 }

@@ -1,9 +1,8 @@
-﻿using Assessment.Shared;
+﻿namespace Assessment.Console.Abstract;
 
-namespace Assessment.Console.Abstract
+using Assessment.Shared;
+
+public interface IWriter
 {
-    public interface IWriter
-    {
-        void Write(List<User> completeUsers, string path, string extension, Action<string>? console = default);
-    }
+    void Write(List<User> completeUsers, string path, Action<string>? console = default);
 }
