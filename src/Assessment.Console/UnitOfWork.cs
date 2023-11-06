@@ -38,17 +38,11 @@ public class UnitOfWork
 
         #region Retriever
 
-        var completeUsers = await _retriever.RetrieveAsync(users, WriteLine);
+        var completeUsers = _retriever.RetrieveAsync(users, WriteLine);
 
         #endregion
 
         #region Writer
-
-        if (completeUsers.Count == 0)
-        {
-            WriteLine("No users found!");
-            return;
-        }
 
         await _writer.WriteAsync(completeUsers, path, WriteLine);
 

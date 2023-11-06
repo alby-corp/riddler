@@ -11,9 +11,23 @@ public class Writer : IWriter
 
     public Writer(IOptions<AppOptions> options) => _options = options.Value;
 
-    public async Task WriteAsync(List<User> completeUsers, string path, Action<string>? console = default)
+    public async Task WriteAsync(IAsyncEnumerable<User> completeUsers, string path, Action<string>? console = default)
     {
-        await File.WriteAllLinesAsync(Path.Combine(path, $"output_{DateTime.Now.ToString(_options.DateFormat)}{_options.Extension}"), completeUsers.Select(user => $"Ciao {user.GivenName} {user.FamilyName} this is your email: {user.Email}"));
-        console?.Invoke("Done!");
+        var lines = new List<string>();
+
+        await foreach (var user in completeUsers)
+        {
+            lines.Add($"Ciao {user.GivenName} {user.FamilyName} this is your email: {user.Email}");
+        }
+
+        if (lines.Count > 0)
+        {
+            await File.WriteAllLinesAsync(Path.Combine(path, $"output_{DateTime.Now.ToString(_options.DateFormat)}{_options.Extension}"), lines);
+            console?.Invoke("Done!");
+        }
+        else
+        {
+            console?.Invoke("No users found!");
+        }
     }
 }

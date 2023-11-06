@@ -12,7 +12,7 @@ public class Retriever : IRetriever
 
     public Retriever(HttpClient httpClient) => _client = httpClient;
 
-    public async Task<List<User>> RetrieveAsync(IEnumerable<Csv> users, Action<string>? console = default)
+    public async IAsyncEnumerable<User> RetrieveAsync(IEnumerable<Csv> users, Action<string>? console = default)
     {
         var completeUsers = new List<User>();
         foreach (var user in users)
@@ -34,11 +34,10 @@ public class Retriever : IRetriever
             using var stream = await response.Content.ReadAsStreamAsync();
             var completeUser = await JsonSerializer.DeserializeAsync<User>(stream);
 
-            if (completeUser is null) continue;
-
-            completeUsers.Add(completeUser);
+            if (completeUser is not null)
+            {
+                yield return completeUser;
+            }
         }
-
-        return completeUsers;
     }
 }

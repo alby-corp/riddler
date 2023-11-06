@@ -4,5 +4,5 @@ using Assessment.Shared;
 
 public interface IWriter
 {
-    Task WriteAsync(List<User> completeUsers, string path, Action<string>? console = default);
+    Task WriteAsync(IAsyncEnumerable<User> completeUsers, string path, Action<string>? console = default);
 }
