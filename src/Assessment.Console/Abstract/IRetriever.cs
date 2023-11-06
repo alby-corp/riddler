@@ -5,5 +5,5 @@ using Assessment.Shared;
 
 public interface IRetriever
 {
-    List<User> Retrieve(IEnumerable<Csv> users, Action<string>? console = default);
+    Task<List<User>> RetrieveAsync(IEnumerable<Csv> users, Action<string>? console = default);
 }

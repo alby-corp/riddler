@@ -11,9 +11,9 @@ public class Writer : IWriter
 
     public Writer(IOptions<AppOptions> options) => _options = options.Value;
 
-    public void Write(List<User> completeUsers, string path, Action<string>? console = default)
+    public async Task WriteAsync(List<User> completeUsers, string path, Action<string>? console = default)
     {
-        File.WriteAllLines(Path.Combine(path, $"output_{DateTime.Now.ToString(_options.DateFormat)}{_options.Extension}"), completeUsers.Select(user => $"Ciao {user.GivenName} {user.FamilyName} this is your email: {user.Email}"));
+        await File.WriteAllLinesAsync(Path.Combine(path, $"output_{DateTime.Now.ToString(_options.DateFormat)}{_options.Extension}"), completeUsers.Select(user => $"Ciao {user.GivenName} {user.FamilyName} this is your email: {user.Email}"));
         console?.Invoke("Done!");
     }
 }

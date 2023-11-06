@@ -16,7 +16,7 @@ public class UnitOfWork
         _writer = writer;
     }
 
-    public void DoWork()
+    public async Task DoWork()
     {
         string? path;
 
@@ -32,13 +32,13 @@ public class UnitOfWork
 
         #region Reader
 
-        var users = _reader.Read(path);
+        var users = await _reader.ReadAsync(path);
 
         #endregion
 
         #region Retriever
 
-        var completeUsers = _retriever.Retrieve(users, WriteLine);
+        var completeUsers = await _retriever.RetrieveAsync(users, WriteLine);
 
         #endregion
 
@@ -50,7 +50,7 @@ public class UnitOfWork
             return;
         }
 
-        _writer.Write(completeUsers, path, WriteLine);
+        await _writer.WriteAsync(completeUsers, path, WriteLine);
 
         #endregion
     }

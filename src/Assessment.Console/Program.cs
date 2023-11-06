@@ -13,7 +13,7 @@ while (true)
         services.AddServices();
 
         var unit = services.BuildServiceProvider().GetRequiredService<UnitOfWork>();
-        unit.DoWork();
+        await unit.DoWork();
     }
     catch (Exception e)
     {

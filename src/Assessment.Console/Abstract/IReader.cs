@@ -4,5 +4,5 @@ using Assessment.Console.Models;
 
 public interface IReader
 {
-    IEnumerable<Csv> Read(string path);
+    Task<IEnumerable<Csv>> ReadAsync(string path);
 }

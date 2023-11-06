@@ -12,7 +12,7 @@ public class Retriever : IRetriever
 
     public Retriever(HttpClient httpClient) => _client = httpClient;
 
-    public List<User> Retrieve(IEnumerable<Csv> users, Action<string>? console = default)
+    public async Task<List<User>> RetrieveAsync(IEnumerable<Csv> users, Action<string>? console = default)
     {
         var completeUsers = new List<User>();
         foreach (var user in users)
@@ -23,7 +23,7 @@ public class Retriever : IRetriever
             builder.Add("family-name", user.FamilyName);
 
             var request = new HttpRequestMessage(HttpMethod.Get, $"users?{builder}");
-            var response = _client.Send(request);
+            var response = await _client.SendAsync(request);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -31,8 +31,8 @@ public class Retriever : IRetriever
                 continue;
             }
 
-            using var stream = response.Content.ReadAsStream();
-            var completeUser = JsonSerializer.Deserialize<User>(stream);
+            using var stream = await response.Content.ReadAsStreamAsync();
+            var completeUser = await JsonSerializer.DeserializeAsync<User>(stream);
 
             if (completeUser is null) continue;
 
