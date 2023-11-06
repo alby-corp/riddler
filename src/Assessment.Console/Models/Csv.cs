@@ -1,13 +1,7 @@
 namespace Assessment.Console.Models;
 
-public class Csv
+public record Csv(string? GivenName, string? FamilyName)
 {
-    public string? GivenName { get; }
-    public string? FamilyName { get; }
-
-    public Csv(string? givenName, string? familyName)
-    {
-        GivenName = givenName ?? string.Empty;
-        FamilyName = familyName ?? string.Empty;
-    }
+    public string? GivenName { get; init; } = GivenName ?? string.Empty;
+    public string? FamilyName { get; init; } = FamilyName ?? string.Empty;
 }
