@@ -1,30 +1,22 @@
-﻿using Assessment.Shared;
+﻿using Assessment.Console.Abstract;
+using Assessment.Shared;
 using static System.Console;
 
 namespace Assessment.Console.Writers
 {
-    internal class Writer
+    internal class Writer : IWriter
     {
         const string extension = ".txt";
 
-        readonly List<User> _completeUsers;
-        readonly string _path;
-
-        public Writer(List<User> completeUsers, string path)
+        public void Write(List<User> completeUsers, string path)
         {
-            _completeUsers = completeUsers;
-            _path = path;
-        } 
-
-        public void Write()
-        {
-            if (_completeUsers.Count == 0)
+            if (completeUsers.Count == 0)
             {
                 WriteLine("No users found!");
                 return;
             }
 
-            File.WriteAllLines(Path.Combine(_path, $"output_{DateTime.Now:yyyy-MM-dd hh-mm-ss}{extension}"), _completeUsers.Select(user => $"Ciao {user.GivenName} {user.FamilyName} this is your email: {user.Email}"));
+            File.WriteAllLines(Path.Combine(path, $"output_{DateTime.Now:yyyy-MM-dd hh-mm-ss}{extension}"), completeUsers.Select(user => $"Ciao {user.GivenName} {user.FamilyName} this is your email: {user.Email}"));
         }
     }
 }

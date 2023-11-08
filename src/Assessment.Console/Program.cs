@@ -1,38 +1,34 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using Assessment.Console;
+using Assessment.Console.Abstract;
+using Assessment.Console.Helpers;
 using Assessment.Console.Readers;
 using Assessment.Console.Retrievers;
 using Assessment.Console.Writers;
+using Microsoft.Extensions.DependencyInjection;
 using static System.Console;
 
-string? path;
+string path;
+
+var services = new ServiceCollection();
+
+services.AddSingleton<IReader, Reader>();
+services.AddSingleton<IRetriever, Retriever>();
+services.AddSingleton<IWriter, Writer>();
+services.AddSingleton<Worker>();
+
+var unit = services.BuildServiceProvider().GetRequiredService<Worker>();
+
+
 
 while (true)
-    try
+    try 
     {
-        Work();
+        path = InputPath.GetValidPath();
+        unit.Work(path);
     }
     catch (Exception e)
     {
         WriteLine("An error occurred: {0}", e.Message);
     }
-
-void Work()
-{
-    do
-    {
-        WriteLine("Please enter a valid path, for txt template");
-        path = ReadLine();
-    } while (string.IsNullOrEmpty(path) || path.Length < 3);
-
-    var reader = new Reader(path);
-    var users = reader.Read();
-
-    var retriever = new Retriever(users);
-    var completeUsers = retriever.Retrieve();
-
-    var writer = new Writer(completeUsers, path);
-    writer.Write();
-
-    WriteLine("Done!");
-}

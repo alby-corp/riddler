@@ -1,4 +1,5 @@
-﻿using Assessment.Console.Models;
+﻿using Assessment.Console.Abstract;
+using Assessment.Console.Models;
 using Assessment.Shared;
 using System.Text.Json;
 using System.Web;
@@ -6,19 +7,14 @@ using static System.Console;
 
 namespace Assessment.Console.Retrievers
 {
-    internal class Retriever
+    internal class Retriever : IRetriever
     {
         const string origin = "http://localhost:5000/";
 
-        readonly IEnumerable<Csv> _users;
-
-        public Retriever(IEnumerable<Csv> users) => _users = users;
-
-        public List<User> Retrieve() 
+        public List<User> Retrieve(IEnumerable<Csv> users)
         {
-
             var completeUsers = new List<User>();
-            foreach (var user in _users)
+            foreach (var user in users)
             {
                 var builder = HttpUtility.ParseQueryString(string.Empty);
 
@@ -45,7 +41,7 @@ namespace Assessment.Console.Retrievers
                 if (completeUser is null) continue;
 
                 completeUsers.Add(completeUser);
-            }
+            }       
 
             return completeUsers;
         }
