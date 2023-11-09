@@ -11,6 +11,7 @@ string path;
 
 var services = new ServiceCollection();
 
+services.AddHttpClients();
 services.AddSingleton<IReader, Reader>();
 services.AddSingleton<IRetriever, Retriever>();
 services.AddSingleton<IWriter, Writer>();
