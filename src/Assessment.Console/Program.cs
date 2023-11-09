@@ -1,14 +1,9 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using System.Text.Json;
-using System.Web;
 using Assessment.Console.Models;
 using Assessment.Shared;
 using static System.Console;
 
-const string origin = "http://localhost:5000/";
-const string separator = ";";
-const string extension = ".txt";
 
 string? path;
 
@@ -31,52 +26,26 @@ void Work()
     } while (string.IsNullOrEmpty(path) || path.Length < 3);
 
     #region Reader
-
-    var lines = File.ReadAllLines(Path.Combine(path, $"input{extension}"));
-    var users = lines
-        .Where(line => !string.IsNullOrEmpty(line))
-        .Select(line =>
-        {
-            var split = line.Split(separator);
-            return new Csv
-            {
-                GivenName = split[0].Trim(),
-                FamilyName = split[1].Trim()
-            };
-        });
-
+    var users = new ReaderUsersCsv(path).ReaderFromFile();
     #endregion
 
     #region Retriever
+    var retrieverUserCsv = new RetrieverUserCsv();
 
     var completeUsers = new List<User>();
     foreach (var user in users)
     {
-        var builder = HttpUtility.ParseQueryString(string.Empty);
-
-        builder.Add("given-name", user.GivenName);
-        builder.Add("family-name", user.FamilyName);
-
-        var client = new HttpClient
+        try
         {
-            BaseAddress = new(origin)
-        };
+            var completeUser = retrieverUserCsv.Retriever(user);
 
-        var request = new HttpRequestMessage(HttpMethod.Get, $"users?{builder}");
-        var response = client.Send(request);
-
-        if (!response.IsSuccessStatusCode)
-        {
-            WriteLine("An error occured: {0}", response.ReasonPhrase);
-            continue;
+            if (completeUser is not null) 
+                completeUsers.Add(completeUser);
         }
-
-        using var stream = response.Content.ReadAsStream();
-        var completeUser = JsonSerializer.Deserialize<User>(stream);
-
-        if (completeUser is null) continue;
-
-        completeUsers.Add(completeUser);
+        catch (ResponseException e)
+        {
+            WriteLine(e.Message);
+        }
     }
 
     #endregion
@@ -89,7 +58,8 @@ void Work()
         return;
     }
 
-    File.WriteAllLines(Path.Combine(path, $"output_{DateTime.Now:yyyy-MM-dd hh-mm-ss}{extension}"), completeUsers.Select(user => $"Ciao {user.GivenName} {user.FamilyName} this is your email: {user.Email}"));
+    var write = new WriteUsersCsv(path);
+    write.WriteToFile(completeUsers);
     WriteLine("Done!");
 
     #endregion
