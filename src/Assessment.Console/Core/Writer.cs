@@ -2,7 +2,7 @@
 using Assessment.Shared;
 using static System.Console;
 
-namespace Assessment.Console.Writers
+namespace Assessment.Console.Core
 {
     internal class Writer : IWriter
     {

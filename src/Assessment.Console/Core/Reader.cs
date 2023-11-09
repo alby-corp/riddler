@@ -1,7 +1,7 @@
 ﻿using Assessment.Console.Abstract;
 using Assessment.Console.Models;
 
-namespace Assessment.Console.Readers
+namespace Assessment.Console.Core
 {
     internal class Reader : IReader
     {

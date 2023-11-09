@@ -2,10 +2,8 @@
 
 using Assessment.Console;
 using Assessment.Console.Abstract;
+using Assessment.Console.Core;
 using Assessment.Console.Helpers;
-using Assessment.Console.Readers;
-using Assessment.Console.Retrievers;
-using Assessment.Console.Writers;
 using Microsoft.Extensions.DependencyInjection;
 using static System.Console;
 

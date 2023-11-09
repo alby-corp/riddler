@@ -5,7 +5,7 @@ using System.Text.Json;
 using System.Web;
 using static System.Console;
 
-namespace Assessment.Console.Retrievers
+namespace Assessment.Console.Core
 {
     internal class Retriever : IRetriever
     {
@@ -41,7 +41,7 @@ namespace Assessment.Console.Retrievers
                 if (completeUser is null) continue;
 
                 completeUsers.Add(completeUser);
-            }       
+            }
 
             return completeUsers;
         }

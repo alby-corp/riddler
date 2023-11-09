@@ -1,7 +1,5 @@
 ﻿using Assessment.Console.Abstract;
-using Assessment.Console.Readers;
-using Assessment.Console.Retrievers;
-using Assessment.Console.Writers;
+using Assessment.Console.Core;
 using Microsoft.Extensions.DependencyInjection;
 namespace Assessment.Console
 {
