@@ -18,10 +18,10 @@
                 {
                     var split = line.Split(Constant.separator);
                     return new Csv
-                    {
-                        GivenName = split[0].Trim(),
-                        FamilyName = split[1].Trim()
-                    };
+                    (
+                        givenName: split[0].Trim(),
+                        familyName: split[1].Trim()
+                    );
                 });
 
             return users;
