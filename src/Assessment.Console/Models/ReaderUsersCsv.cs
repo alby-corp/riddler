@@ -19,8 +19,8 @@
                     var split = line.Split(Constant.separator);
                     return new Csv
                     (
-                        givenName: split[0].Trim(),
-                        familyName: split[1].Trim()
+                        GivenName: split[0].Trim(),
+                        FamilyName: split[1].Trim()
                     );
                 });
 
