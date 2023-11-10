@@ -1,12 +1,15 @@
 ﻿using Assessment.Console.Abstract;
+using Assessment.Console.Options;
 using Assessment.Shared;
+using Microsoft.Extensions.Options;
 using static System.Console;
 
 namespace Assessment.Console.Core
 {
     internal class Writer : IWriter
     {
-        const string extension = ".txt";
+        readonly AppOptions _options;
+        public Writer(IOptions<AppOptions> options) => _options = options.Value;
 
         public void Write(List<User> completeUsers, string path)
         {
@@ -16,7 +19,7 @@ namespace Assessment.Console.Core
                 return;
             }
 
-            File.WriteAllLines(Path.Combine(path, $"output_{DateTime.Now:yyyy-MM-dd hh-mm-ss}{extension}"), completeUsers.Select(user => $"Ciao {user.GivenName} {user.FamilyName} this is your email: {user.Email}"));
+            File.WriteAllLines(Path.Combine(path, $"output_{DateTime.Now:yyyy-MM-dd hh-mm-ss}{_options.Extension}"), completeUsers.Select(user => $"Ciao {user.GivenName} {user.FamilyName} this is your email: {user.Email}"));
         }
     }
 }

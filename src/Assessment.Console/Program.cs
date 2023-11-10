@@ -4,6 +4,7 @@ using Assessment.Console;
 using Assessment.Console.Abstract;
 using Assessment.Console.Core;
 using Assessment.Console.Helpers;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using static System.Console;
 
@@ -11,10 +12,9 @@ string path;
 
 var services = new ServiceCollection();
 
+services.AddAppOptions();
 services.AddHttpClients();
-services.AddSingleton<IReader, Reader>();
-services.AddSingleton<IRetriever, Retriever>();
-services.AddSingleton<IWriter, Writer>();
+services.AddServices();
 services.AddSingleton<Worker>();
 
 var unit = services.BuildServiceProvider().GetRequiredService<Worker>();
