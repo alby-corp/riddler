@@ -10,13 +10,13 @@ namespace Assessment.Console.Core
         readonly ApiClient _client;
         public Retriever(ApiClient client) => _client = client;
 
-        public List<User> Retrieve(IEnumerable<Csv> users)
+        public async Task<List<User>> Retrieve(IEnumerable<Csv> users)
         {
             var completeUsers = new List<User>();
 
             foreach (var user in users)
             {
-                var completeUser = _client.Get(user);
+                var completeUser = await _client.GetAsync(user);
                 if (completeUser != null)
                     completeUsers.Add(completeUser);
             }

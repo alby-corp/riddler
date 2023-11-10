@@ -4,6 +4,6 @@ namespace Assessment.Console.Abstract
 {
     public interface IReader
     {
-        IEnumerable<Csv> Read(string path);
+        Task<IEnumerable<Csv>> Read(string path);
     }
 }

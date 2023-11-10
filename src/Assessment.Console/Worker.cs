@@ -16,13 +16,13 @@ namespace Assessment.Console
             _writer = writer;
         }
 
-        public void Work(string filePath)
+        public async Task Work(string filePath)
         {
             try
             {
-                var users = _reader.Read(filePath);
-                var completeUsers = _retriever.Retrieve(users);
-                _writer.Write(completeUsers, filePath);
+                var users = await _reader.Read(filePath);
+                var completeUsers = await _retriever.Retrieve(users);
+                await _writer.Write(completeUsers, filePath);
 
                 WriteLine("Done!");
             }

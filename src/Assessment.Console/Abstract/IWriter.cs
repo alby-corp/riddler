@@ -4,6 +4,6 @@ namespace Assessment.Console.Abstract
 {
     public interface IWriter
     {
-        void Write(List<User> completeUsers, string path);
+        Task Write(List<User> completeUsers, string path);
     }
 }

@@ -10,9 +10,9 @@ namespace Assessment.Console.Core
         readonly AppOptions _options;
         public Reader(IOptions<AppOptions> options) => _options = options.Value;
 
-        public IEnumerable<Csv> Read(string path)
+        public async Task<IEnumerable<Csv>> Read(string path)
         {
-            var lines = File.ReadAllLines(Path.Combine(path, $"input{_options.Extension}"));
+            var lines = await File.ReadAllLinesAsync(Path.Combine(path, $"input{_options.Extension}"));
             var users = lines
                 .Where(line => !string.IsNullOrEmpty(line))
                 .Select(line =>

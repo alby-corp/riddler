@@ -12,7 +12,7 @@ namespace Assessment.Console.Clients
 
         public ApiClient(HttpClient httpClient) => _httpClient = httpClient;
 
-        public User? Get(Csv user)
+        public async Task<User?> GetAsync(Csv user)
         {
             var builder = HttpUtility.ParseQueryString(string.Empty);
 
@@ -20,7 +20,7 @@ namespace Assessment.Console.Clients
             builder.Add("family-name", user.FamilyName);
 
             var request = new HttpRequestMessage(HttpMethod.Get, $"users?{builder}");
-            var response = _httpClient.Send(request);
+            var response = await _httpClient.SendAsync(request);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -29,8 +29,8 @@ namespace Assessment.Console.Clients
             }
             else
             {
-                using var stream = response.Content.ReadAsStream();
-                var completeUser = JsonSerializer.Deserialize<User>(stream);
+                using var stream = await response.Content.ReadAsStreamAsync();
+                var completeUser = await JsonSerializer.DeserializeAsync<User>(stream);
 
                 return completeUser;
             }
