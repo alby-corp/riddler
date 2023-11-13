@@ -1,30 +1,28 @@
-﻿namespace Assessment.Console.Models
+﻿namespace Assessment.Console.Models;
+
+using Assessment.Console.Options;
+using Microsoft.Extensions.Options;
+
+public class ReaderUsersCsv : IReaderUsersCsv
 {
-    internal class ReaderUsersCsv
-    {
-        private readonly string _path;
+    private readonly ConsoleConstant _constant;
 
-        internal ReaderUsersCsv(string path)
-        {
-            _path = path;
-        }
+    public ReaderUsersCsv(IOptions<ConsoleConstant> constant) => _constant = constant.Value;
 
-        internal IEnumerable<Csv> ReaderFromFile()
-        {             
-            var lines = File.ReadAllLines(Path.Combine(_path, $"input{Constant.extension}"));
-            var users = lines
-                .Where(line => !string.IsNullOrEmpty(line))
-                .Select(line =>
-                {
-                    var split = line.Split(Constant.separator);
-                    return new Csv
-                    (
-                        GivenName: split[0].Trim(),
-                        FamilyName: split[1].Trim()
-                    );
-                });
-
-            return users;
-        }
+    public IEnumerable<Csv> ReaderFromFile(string path)
+    {             
+        var lines = File.ReadAllLines(Path.Combine(path, $"input{_constant.extension}")) ?? Array.Empty<string>();
+        var users = lines
+            .Where(line => !string.IsNullOrEmpty(line))
+            .Select(line =>
+            {
+                var split = line.Split(_constant.separator);
+                return new Csv
+                (
+                    GivenName: split[0].Trim(),
+                    FamilyName: split[1].Trim()
+                );
+            });
+        return users;
     }
 }

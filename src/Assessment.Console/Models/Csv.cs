@@ -1,3 +1,3 @@
 namespace Assessment.Console.Models;
 
-internal record Csv(string? GivenName, string? FamilyName);
+public record Csv(string? GivenName, string? FamilyName);
