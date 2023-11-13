@@ -42,13 +42,8 @@ public class WorkAssessment
         var csvUsers = await _reader.ReaderFromFile(_path);
         #endregion
 
-        #region Retriever       
-        var completeUsers = await Task.WhenAll(csvUsers.Select(async csvUser =>
-        {
-            var user = await _retriever.Retriever(csvUser);
-            return user;
-        })
-        .Where(c => c is not null));
+        #region Retriever
+        var completeUsers = await _retriever.Retriever(csvUsers);
         #endregion
 
         #region Writer
