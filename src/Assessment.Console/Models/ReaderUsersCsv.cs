@@ -9,9 +9,9 @@ public class ReaderUsersCsv : IReaderUsersCsv
 
     public ReaderUsersCsv(IOptions<ConsoleConstant> constant) => _constant = constant.Value;
 
-    public IEnumerable<Csv> ReaderFromFile(string path)
+    public async Task<IEnumerable<Csv>> ReaderFromFile(string path)
     {             
-        var lines = File.ReadAllLines(Path.Combine(path, $"input{_constant.extension}")) ?? Array.Empty<string>();
+        var lines = await File.ReadAllLinesAsync(Path.Combine(path, $"input{_constant.extension}")) ?? Array.Empty<string>();
         var users = lines
             .Where(line => !string.IsNullOrEmpty(line))
             .Select(line =>
@@ -23,6 +23,7 @@ public class ReaderUsersCsv : IReaderUsersCsv
                     FamilyName: split[1].Trim()
                 );
             });
+
         return users;
     }
 }

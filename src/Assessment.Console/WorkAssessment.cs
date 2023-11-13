@@ -1,6 +1,7 @@
 ﻿namespace Assessment.Console;
 
 using Assessment.Console.Models;
+using Assessment.Shared;
 using System;
 using System.Threading.Tasks;
 using static System.Console;
@@ -33,20 +34,25 @@ public class WorkAssessment
         }
     }
 
-    private void Work()
+    private async void Work()
     {
         _path = GetPath();
 
         #region Reader
-        var csvUsers = _reader.ReaderFromFile(_path);
+        var csvUsers = await _reader.ReaderFromFile(_path);
         #endregion
 
-        #region Retriever        
-        var completeUsers = csvUsers.Select(_retriever.Retriever).Where(c => c is not null);
+        #region Retriever       
+        var completeUsers = await Task.WhenAll(csvUsers.Select(async csvUser =>
+        {
+            var user = await _retriever.Retriever(csvUser);
+            return user;
+        })
+        .Where(c => c is not null));
         #endregion
 
         #region Writer
-        WriteLine(_writer.WriteToFile(_path, completeUsers!));
+        WriteLine(await _writer.WriteToFileAsync(_path, completeUsers!));
         #endregion
     }
 

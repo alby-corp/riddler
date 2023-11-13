@@ -4,6 +4,6 @@ using Assessment.Shared;
 
 public interface IWriteUsersCsv
 {
-    string WriteToFile(string path,IEnumerable<User> completeUsers);
+    Task<string> WriteToFileAsync(string path,IEnumerable<User> completeUsers);
 }
 

@@ -8,6 +8,6 @@ services.AddConsoleReference();
 services.AddSingleton<WorkAssessment>();
 
 var workAssessment = services.BuildServiceProvider().GetRequiredService<WorkAssessment>();
-workAssessment.StartWork();
+await workAssessment.StartWork();
 
 

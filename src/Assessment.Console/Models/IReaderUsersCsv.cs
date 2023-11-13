@@ -4,6 +4,6 @@ using System.Collections.Generic;
 
 public interface IReaderUsersCsv
 {
-    IEnumerable<Csv> ReaderFromFile(string path);
+   Task<IEnumerable<Csv>> ReaderFromFile(string path);
 }
 

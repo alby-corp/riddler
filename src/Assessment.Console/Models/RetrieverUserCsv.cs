@@ -11,11 +11,11 @@ public class RetrieverUserCsv : IRetrieverUserCsv
 
     public RetrieverUserCsv(IResponsysClient client) => _client = client;
   
-    public User? Retriever(Csv user)
+    public async Task<User?> Retriever(Csv user)
     {
         try
         {
-            return _client.GetCompleteUser(user);
+            return await _client.GetCompleteUser(user);
         }
         catch (ResponseException e)
         {

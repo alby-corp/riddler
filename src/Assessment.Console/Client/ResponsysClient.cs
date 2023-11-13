@@ -13,14 +13,14 @@ public class ResponsysClient : IResponsysClient
 
     public ResponsysClient(HttpClient client) => _client = client;
     
-    public User? GetCompleteUser(Csv user)
+    public async Task<User?> GetCompleteUser(Csv user)
     {
         var builder = HttpUtility.ParseQueryString(string.Empty);
 
         builder.Add("given-name", user.GivenName);
         builder.Add("family-name", user.FamilyName);
 
-        var response = Send(builder);
+        var response = await Send(builder);
 
         using var stream = response.Content.ReadAsStream();
         var completeUser = JsonSerializer.Deserialize<User>(stream);
@@ -28,10 +28,10 @@ public class ResponsysClient : IResponsysClient
         return completeUser;
     }
 
-    private HttpResponseMessage Send(NameValueCollection builder)
+    private async Task<HttpResponseMessage> Send(NameValueCollection builder)
     {
         var request = new HttpRequestMessage(HttpMethod.Get, $"users?{builder}");
-        var response = _client.Send(request) ?? throw new ResponseException("response is null");
+        var response = await _client.SendAsync(request) ?? throw new ResponseException("response is null");
 
         if (!response.IsSuccessStatusCode)
             throw new ResponseException(response.ReasonPhrase!);

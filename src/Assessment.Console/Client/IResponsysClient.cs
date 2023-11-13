@@ -5,5 +5,5 @@ using Assessment.Shared;
 
 public interface IResponsysClient
 {
-    User? GetCompleteUser(Csv user);
+    Task<User?> GetCompleteUser(Csv user);
 }

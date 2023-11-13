@@ -4,6 +4,6 @@ using Assessment.Shared;
 
 public interface IRetrieverUserCsv
 {
-    User? Retriever(Csv user);
+    Task<User?> Retriever(Csv user);
 }
 
