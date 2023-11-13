@@ -7,7 +7,7 @@ using System.Collections.Specialized;
 using System.Text.Json;
 using System.Web;
 
-public class ResponsysClient
+public class ResponsysClient : IResponsysClient
 {
     private readonly HttpClient _client;
 
@@ -38,7 +38,5 @@ public class ResponsysClient
 
         return response;
     }
-
-
 }
 

@@ -7,10 +7,10 @@ using static System.Console;
 
 public class RetrieverUserCsv : IRetrieverUserCsv
 {
-    private readonly ResponsysClient _client;
+    private readonly IResponsysClient _client;
 
-    public RetrieverUserCsv(ResponsysClient client) => _client = client;
-
+    public RetrieverUserCsv(IResponsysClient client) => _client = client;
+  
     public User? Retriever(Csv user)
     {
         try

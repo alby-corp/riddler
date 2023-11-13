@@ -6,7 +6,6 @@ using Assessment.Console.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using System.Reflection.Metadata;
 
 public static class ConsoleBootstrapper
 {
@@ -42,7 +41,7 @@ public static class ConsoleBootstrapper
 
     private static void AddClients(this IServiceCollection services)
     {
-        services.AddHttpClient<ResponsysClient>((provider, client) =>
+        services.AddHttpClient<IResponsysClient,ResponsysClient>((provider, client) =>
         {
             var options = provider.GetRequiredService<IOptions<ConsoleConstant>>().Value;
             client.BaseAddress = new(options.origin);
