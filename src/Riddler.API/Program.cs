@@ -1,3 +1,4 @@
+using Bogus;
 using Microsoft.AspNetCore.Mvc;
 using Riddler.API;
 using Riddler.Shared.Users;
@@ -21,5 +22,11 @@ api.MapGet("/users", ([FromQuery(Name = "given-name")] string givenName, [FromQu
             Email = $"{givenName}.{familyName}@mail.it"
         });
 });
+
+var faker = new Faker();
+var frostings = new[] { "Buttercream", "Ganache", "Meringue" };
+
+api.MapGet("/cake/frostings", () => frostings);
+api.MapGet("/cake/frosting", () => faker.PickRandom(frostings));
 
 await app.RunAsync();

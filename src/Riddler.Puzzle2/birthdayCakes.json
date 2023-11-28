@@ -1,0 +1,26 @@
+﻿[
+  {
+    "Flavor": "Chocolate",
+    "Shape": "Round",
+    "Layers": 1,
+    "Frosting": "Ganache"
+  },
+  {
+    "Flavor": "Chocolate",
+    "Shape": "Square",
+    "Layers": 1,
+    "Frosting": "Ganache"
+  },
+  {
+    "Flavor": "Hazelnut",
+    "Shape": "Round",
+    "Layers": 1,
+    "Frosting": "Ganache"
+  },
+  {
+    "Flavor": "Hazelnut",
+    "Shape": "Square",
+    "Layers": 1,
+    "Frosting": "Ganache"
+  }
+]
